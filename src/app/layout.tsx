@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,7 @@ export default function RootLayout({
 }) {
  return (
   <ClerkProvider>
-   <html lang="en">
+   <html lang="en" suppressHydrationWarning>
     <body className={cn("antialiased min-h-screen", inter.className)}>
      <ThemeProvider
       attribute="class"
