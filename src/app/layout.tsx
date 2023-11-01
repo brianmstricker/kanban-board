@@ -3,8 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ClerkProvider, currentUser } from "@clerk/nextjs";
+import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,11 +13,12 @@ export const metadata: Metadata = {
  description: "Kanban board for managing tasks",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
  children,
 }: {
  children: React.ReactNode;
 }) {
+ const user = await currentUser();
  return (
   <ClerkProvider>
    <html lang="en" suppressHydrationWarning>
@@ -28,7 +29,8 @@ export default function RootLayout({
       enableSystem
       disableTransitionOnChange
      >
-      {children}
+      {!!user && <Header />}
+      <div>{children}</div>
      </ThemeProvider>
     </body>
    </html>
