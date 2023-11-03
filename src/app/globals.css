@@ -42,7 +42,7 @@ html,
 }
 
 .closing-animation {
- animation: animateModalClose 0.4s;
+ animation: animateModalClose 0.4s forwards;
 }
 
 .opening-animation {

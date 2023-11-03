@@ -1,5 +1,11 @@
 import HeadingText from "@/components/HeadingText";
 import { SignUp } from "@clerk/nextjs";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+ title: "Sign up - Kanban",
+ description: "Sign up to create your own Kanban Boards!",
+};
 
 const page = () => {
  return (

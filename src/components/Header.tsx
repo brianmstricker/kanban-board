@@ -1,6 +1,7 @@
 import Link from "next/link";
 import HeadingText from "./HeadingText";
 import { ThemeToggle } from "./ThemeToggle";
+import { UserButton } from "@clerk/nextjs";
 
 const Header = () => {
  return (
@@ -8,7 +9,13 @@ const Header = () => {
    <Link href={"/"}>
     <HeadingText className="text-4xl sm:text-5xl mb-0" />
    </Link>
-   <ThemeToggle />
+   <div className="flex gap-4 items-center">
+    <ThemeToggle />
+    <UserButton
+     afterSignOutUrl="/sign-in"
+     afterMultiSessionSingleSignOutUrl="/sign-in"
+    />
+   </div>
   </nav>
  );
 };

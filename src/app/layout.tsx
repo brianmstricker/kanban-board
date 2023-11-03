@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ClerkProvider, currentUser } from "@clerk/nextjs";
+import { ClerkProvider, SignedIn } from "@clerk/nextjs";
 import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,7 +18,6 @@ export default async function RootLayout({
 }: {
  children: React.ReactNode;
 }) {
- const user = await currentUser();
  return (
   <ClerkProvider>
    <html lang="en" suppressHydrationWarning>
@@ -29,8 +28,10 @@ export default async function RootLayout({
       enableSystem
       disableTransitionOnChange
      >
-      {!!user && <Header />}
-      <div>{children}</div>
+      <SignedIn>
+       <Header />
+      </SignedIn>
+      {children}
      </ThemeProvider>
     </body>
    </html>
