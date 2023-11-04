@@ -3,6 +3,29 @@ import { Plus, X } from "lucide-react";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import {
+ Form,
+ FormControl,
+ FormDescription,
+ FormField,
+ FormItem,
+ FormLabel,
+ FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+const formSchema = z.object({
+ boardName: z
+  .string()
+  .min(3, { message: "Board name must be at least three characters." })
+  .max(50, { message: "Board name must be 50 characters or less." }),
+ description: z
+  .string()
+  .min(3, { message: "Board description must be at least three characters." })
+  .max(1000, { message: "Board description must be 1000 characters or less." }),
+});
 
 const CreateBoard = () => {
  const [modal, setShowModal] = useState(false);
@@ -12,8 +35,17 @@ const CreateBoard = () => {
    modalElement.classList.remove("opening-animation");
    modalElement.classList.add("closing-animation");
    setTimeout(() => setShowModal(false), 350);
+   form.reset();
   }
  };
+ const form = useForm({
+  resolver: zodResolver(formSchema),
+  defaultValues: {
+   boardName: "",
+   description: "",
+  },
+ });
+ function onSubmit(values: z.infer<typeof formSchema>) {}
  return (
   <>
    <button
@@ -31,7 +63,7 @@ const CreateBoard = () => {
      <div
       id="createModal"
       onClick={(e) => e.stopPropagation()}
-      className="xxs:border border-black/50 dark:border-white/50 w-full h-full xxs:w-[85%] xxs:h-[80%] md:w-[65%] md:h-[65%] lg:w-[65%] lg:h-[65%] xl:w-[55%] xl:h-[55%] p-3 opening-animation relative bg-lightBG dark:bg-darkBG rounded"
+      className="xxs:border border-black/50 dark:border-white/50 w-full h-full xxs:w-[85%] xxs:h-[85%] md:w-[65%] md:h-[75%] lg:w-[65%] lg:h-[70%] xl:w-[55%] xl:h-[70%] p-3 opening-animation relative bg-lightBG dark:bg-darkBG rounded"
      >
       <div
        onClick={closeModal}
@@ -39,32 +71,63 @@ const CreateBoard = () => {
       >
        <X />
       </div>
-      <h2 className="text-center text-3xl mt-4 sm:mt-0">
-       Create Your Kanban Board!
-      </h2>
-      <div className="flex flex-col gap-2 mt-16 lg:mt-8">
-       <label htmlFor="boardName" className="ml-1 text-lg">
-        Board Name
-       </label>
-       <Input
-        type="text"
-        id="boardName"
-        placeholder="Board Name"
-        className="text-lg border-black/50 dark:border-white/50"
-       />
-       <label htmlFor="description" className="ml-1 text-lg mt-4">
-        Description
-       </label>
-       <Textarea
-        id="description"
-        placeholder="Description"
-        className="text-lg border-black/50 dark:border-white/50 resize-none"
-        rows={5}
-       />
-       <button className="bg-green-600 hover:bg-green-700 transition-colors duration-300 text-white rounded p-2 w-1/2 absolute bottom-4 left-1/2 right-1/2 -translate-x-1/2">
-        Create
-       </button>
-      </div>
+      <Form {...form}>
+       <h2 className="text-center text-3xl mt-4 sm:mt-0">
+        Create Your Kanban Board!
+       </h2>
+       <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-2 mt-16 lg:mt-8"
+       >
+        <FormField
+         control={form.control}
+         name="boardName"
+         render={({ field }) => (
+          <FormItem className="w-[90%] mx-auto">
+           <FormLabel className="ml-1 text-lg">Board Name</FormLabel>
+           <FormControl>
+            <Input
+             placeholder="Board Name"
+             {...field}
+             className="text-lg border-black/50 dark:border-white/50"
+            />
+           </FormControl>
+           <FormDescription className="ml-1">
+            This is the name of your board
+           </FormDescription>
+           <FormMessage />
+          </FormItem>
+         )}
+        />
+        <FormField
+         control={form.control}
+         name="description"
+         render={({ field }) => (
+          <FormItem className="mt-4 w-[90%] mx-auto">
+           <FormLabel className="ml-1 text-lg">Description</FormLabel>
+           <FormControl>
+            <Textarea
+             placeholder="Board Description"
+             {...field}
+             className="text-lg border-black/50 dark:border-white/50 resize-none"
+             rows={5}
+            />
+           </FormControl>
+           <FormDescription className="ml-1">
+            Leave a description of your board.
+           </FormDescription>
+           <FormMessage />
+          </FormItem>
+         )}
+        />
+        <button
+         type="submit"
+         className="bg-green-600 hover:bg-green-700 transition-colors duration-300 text-white rounded p-2 w-1/2 absolute bottom-4 left-1/2 right-1/2 -translate-x-1/2 max-w-[300px]"
+        >
+         Create
+        </button>
+       </form>
+      </Form>
      </div>
     </div>
    )}
