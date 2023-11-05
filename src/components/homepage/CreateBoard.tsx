@@ -15,9 +15,11 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { createBoard } from "@/lib/actions/board.actions";
+import { useUser } from "@clerk/nextjs";
 
 const formSchema = z.object({
- boardName: z
+ name: z
   .string()
   .min(3, { message: "Board name must be at least three characters." })
   .max(50, { message: "Board name must be 50 characters or less." }),
@@ -29,6 +31,8 @@ const formSchema = z.object({
 
 const CreateBoard = () => {
  const [modal, setShowModal] = useState(false);
+ const userInfo = useUser();
+ const id = userInfo?.user?.id;
  const closeModal = () => {
   const modalElement = document.getElementById("createModal");
   if (modalElement) {
@@ -41,11 +45,18 @@ const CreateBoard = () => {
  const form = useForm({
   resolver: zodResolver(formSchema),
   defaultValues: {
-   boardName: "",
+   name: "",
    description: "",
   },
  });
- function onSubmit(values: z.infer<typeof formSchema>) {}
+ async function onSubmit(values: z.infer<typeof formSchema>) {
+  await createBoard({
+   name: values.name,
+   description: values.description,
+   id: id as string,
+  });
+  closeModal();
+ }
  return (
   <>
    <button
@@ -63,7 +74,7 @@ const CreateBoard = () => {
      <div
       id="createModal"
       onClick={(e) => e.stopPropagation()}
-      className="xxs:border border-black/50 dark:border-white/50 w-full h-full xxs:w-[85%] xxs:h-[85%] md:w-[65%] md:h-[75%] lg:w-[65%] lg:h-[70%] xl:w-[55%] xl:h-[70%] p-3 opening-animation relative bg-lightBG dark:bg-darkBG rounded"
+      className="xxs:border border-black/50 dark:border-white/50 w-full h-full xxs:w-[85%] xxs:h-auto md:w-[65%]  lg:w-[65%]  xl:w-[55%] pb-20 p-3 opening-animation relative bg-lightBG dark:bg-darkBG rounded"
      >
       <div
        onClick={closeModal}
@@ -81,7 +92,7 @@ const CreateBoard = () => {
        >
         <FormField
          control={form.control}
-         name="boardName"
+         name="name"
          render={({ field }) => (
           <FormItem className="w-[90%] mx-auto">
            <FormLabel className="ml-1 text-lg">Board Name</FormLabel>
