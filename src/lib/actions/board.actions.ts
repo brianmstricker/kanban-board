@@ -28,3 +28,14 @@ export async function createBoard({
   throw new Error(`Failed to create board: ${error.message}`);
  }
 }
+
+export async function fetchBoards({ id }: { id: string }) {
+ try {
+  dbConnect();
+  if (!id) throw new Error("No user id provided");
+  const boards = await Board.find({ owner: id });
+  return boards;
+ } catch (error: any) {
+  throw new Error(`Failed to fetch boards: ${error.message}`);
+ }
+}

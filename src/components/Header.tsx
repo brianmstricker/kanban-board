@@ -1,9 +1,7 @@
 import Link from "next/link";
 import HeadingText from "./HeadingText";
 import { ThemeToggle } from "./ThemeToggle";
-import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
-import { dark } from "@clerk/themes";
 import UserButtonClient from "./UserButtonClient";
 
 const Header = () => {

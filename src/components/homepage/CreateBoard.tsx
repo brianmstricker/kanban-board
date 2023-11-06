@@ -25,8 +25,15 @@ const formSchema = z.object({
   .max(50, { message: "Board name must be 50 characters or less." }),
  description: z
   .string()
-  .min(3, { message: "Board description must be at least three characters." })
-  .max(1000, { message: "Board description must be 1000 characters or less." }),
+  .optional()
+  .or(
+   z
+    .string()
+    .min(3, { message: "Board description must be at least three characters." })
+    .max(1000, {
+     message: "Board description must be 1000 characters or less.",
+    })
+  ),
 });
 
 const CreateBoard = () => {
@@ -52,7 +59,7 @@ const CreateBoard = () => {
  async function onSubmit(values: z.infer<typeof formSchema>) {
   await createBoard({
    name: values.name,
-   description: values.description,
+   description: values.description as string,
    id: id as string,
   });
   closeModal();
@@ -61,7 +68,7 @@ const CreateBoard = () => {
   <>
    <button
     onClick={() => setShowModal(true)}
-    className="flex items-center justify-center gap-2 w-full h-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-300 py-3"
+    className="flex items-center justify-center gap-2 w-full h-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-300 py-4"
    >
     <span className="text-xl font-semibold">Create</span>
     <Plus />
@@ -74,7 +81,7 @@ const CreateBoard = () => {
      <div
       id="createModal"
       onClick={(e) => e.stopPropagation()}
-      className="xxs:border border-black/50 dark:border-white/50 w-full h-full xxs:w-[85%] xxs:h-auto md:w-[65%]  lg:w-[65%]  xl:w-[55%] pb-20 p-3 opening-animation relative bg-lightBG dark:bg-darkBG rounded"
+      className="xxs:border border-black/50 dark:border-white/50 w-full h-full xxs:w-[85%] xxs:h-auto md:w-[65%]  lg:w-[65%]  xl:w-[55%] pb-20 p-3 opening-animation relative bg-lightBG dark:bg-darkBG rounded max-w-[800px]"
      >
       <div
        onClick={closeModal}
