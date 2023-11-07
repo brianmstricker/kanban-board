@@ -29,13 +29,30 @@ export async function createBoard({
  }
 }
 
-export async function fetchBoards({ id }: { id: string }) {
+export async function fetchBoards({ userID }: { userID: string }) {
  try {
   dbConnect();
-  if (!id) throw new Error("No user id provided");
-  const boards = await Board.find({ owner: id });
+  if (!userID) throw new Error("No user id provided");
+  const boards = await Board.find({ owner: userID });
   return boards;
  } catch (error: any) {
   throw new Error(`Failed to fetch boards: ${error.message}`);
+ }
+}
+
+export async function fetchBoard({
+ boardID,
+ userID,
+}: {
+ boardID: string;
+ userID: string;
+}) {
+ try {
+  dbConnect();
+  if (!userID || !boardID) throw new Error("No user id or board id provided");
+  const board = await Board.find({ _id: boardID, owner: userID });
+  return board;
+ } catch (error: any) {
+  throw new Error(`Failed to fetch board: ${error.message}`);
  }
 }

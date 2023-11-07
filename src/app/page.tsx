@@ -1,7 +1,7 @@
 import BoardCard from "@/components/homepage/BoardCard";
 import LeftMenu from "@/components/homepage/LeftMenu";
 import { fetchBoards } from "@/lib/actions/board.actions";
-import { currentUser } from "@clerk/nextjs";
+import { getUserID } from "@/lib/utils";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,26 +10,28 @@ export const metadata: Metadata = {
 };
 
 export async function Home() {
- const userInfo = await currentUser();
- const id = userInfo?.id;
- if (!id) return null;
- const boards = await fetchBoards({ id });
+ const userID = await getUserID();
+ if (!userID) return null;
+ const boards = await fetchBoards({ userID });
  return (
   <div className="flex">
    <LeftMenu boards={boards} />
-   <main className="pl-2 pt-2 flex-grow overflow-y-hidden text-center">
-    <h1 className="text-4xl">Welcome to Kanban!</h1>
+   <main className="p-2 flex-grow">
+    <h1 className="text-5xl text-center">Welcome to Kanban!</h1>
     {boards && boards.length === 0 && (
      <p className="mt-6">
       You don&apos;t have any boards, create one to get started!
      </p>
     )}
     {boards && boards.length > 0 && (
-     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-10">
-      {boards.map((board) => (
-       <BoardCard key={board.id} board={board} />
-      ))}
-     </div>
+     <>
+      <p className="mt-4 opacity-75 text-center">Your boards:</p>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4 gap-6">
+       {boards.map((board) => (
+        <BoardCard key={board.id} board={board} />
+       ))}
+      </div>
+     </>
     )}
    </main>
   </div>
