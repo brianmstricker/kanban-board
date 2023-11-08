@@ -25,7 +25,7 @@ export async function Home() {
     )}
     {boards && boards.length > 0 && (
      <>
-      <p className="mt-4 opacity-75 text-center">Your boards:</p>
+      <p className="mt-2 opacity-75 text-center">Your boards:</p>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4 gap-6">
        {boards.map((board) => (
         <BoardCard key={board.id} board={board} />

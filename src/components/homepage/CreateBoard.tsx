@@ -76,12 +76,12 @@ const CreateBoard = () => {
    {modal && (
     <div
      onClick={closeModal}
-     className="fixed inset-0 w-screen h-screen bg-lightBG dark:bg-darkBG xxs:bg-neutral-50/80 xxs:dark:bg-neutral-800/80 z-50 flex items-center justify-center backdrop-blur-[8px] sm:backdrop-blur-[6px]"
+     className="fixed inset-0 w-screen h-screen bg-lightBG dark:bg-darkBG xxs:bg-neutral-50/80 xxs:dark:bg-neutral-800/80 z-[90] flex items-center justify-center backdrop-blur-[8px] sm:backdrop-blur-[6px]"
     >
      <div
       id="createModal"
       onClick={(e) => e.stopPropagation()}
-      className="xxs:border border-black/50 dark:border-white/50 w-full h-full xxs:w-[85%] xxs:h-auto md:w-[65%]  lg:w-[65%]  xl:w-[55%] pb-20 p-3 opening-animation relative bg-lightBG dark:bg-darkBG rounded max-w-[800px]"
+      className="xxs:border border-black/50 dark:border-white/50 w-full h-full xxs:w-[85%] xxs:h-auto md:w-[65%]  lg:w-[65%]  xl:w-[55%] pb-20 p-3 opening-animation relative bg-lightBG dark:bg-darkBG rounded sm:max-w-[800px] z-[100]"
      >
       <div
        onClick={closeModal}

@@ -1,3 +1,5 @@
+import { CheckSquare, XSquare } from "lucide-react";
+
 export type BoardCardProps = {
  board: {
   id: string;
@@ -21,17 +23,23 @@ const BoardCard = ({ board }: BoardCardProps) => {
     {board.fieldNames &&
      board.fieldNames.length > 0 &&
      board.fieldNames.map((category: string, i: number) => (
-      <div key={i} className="flex justify-between">
+      <div key={i} className="flex flex-col gap-2">
        <span className="text-sm opacity-80">{category}</span>
        <span className="text-sm opacity-80">{board.fieldValues[i]}</span>
       </div>
      ))}
    </div>
-   <div>
+   <div className="mt-2">
     {board.publicAccess ? (
-     <span>Public Access enabled</span>
+     <div>
+      <CheckSquare color="green" />
+      <span className="text-sm">Public Access enabled</span>
+     </div>
     ) : (
-     <span>Private Access disabled</span>
+     <div className="flex items-center gap-1">
+      <XSquare color="red" />
+      <span className="text-sm">Private Access disabled</span>
+     </div>
     )}
    </div>
   </div>
