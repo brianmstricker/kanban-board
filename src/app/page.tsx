@@ -19,7 +19,7 @@ export async function Home() {
    <main className="p-2 flex-grow">
     <h1 className="text-5xl text-center">Welcome to Kanban!</h1>
     {boards && boards.length === 0 && (
-     <p className="mt-6">
+     <p className="mt-6 text-center">
       You don&apos;t have any boards, create one to get started!
      </p>
     )}
@@ -28,7 +28,7 @@ export async function Home() {
       <p className="mt-2 opacity-75 text-center">Your boards:</p>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4 gap-6">
        {boards.map((board) => (
-        <BoardCard key={board.id} board={board} />
+        <BoardCard key={board._id} board={board} />
        ))}
       </div>
      </>

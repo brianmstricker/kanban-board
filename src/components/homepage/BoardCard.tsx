@@ -2,12 +2,23 @@ import { CheckSquare, XSquare } from "lucide-react";
 
 export type BoardCardProps = {
  board: {
-  id: string;
+  _id: string;
   name: string;
   description?: string;
-  fieldNames: string[];
-  fieldValues: string[];
+  owner: string;
   publicAccess: boolean;
+  position: number;
+  createdAt: string;
+  updatedAt: string;
+  sections: {
+   _id: string;
+   name: string;
+   description?: string;
+   fieldNames: string[];
+   fieldValues: string[];
+   createdAt: string;
+   updatedAt: string;
+  }[];
  };
 };
 
@@ -20,12 +31,11 @@ const BoardCard = ({ board }: BoardCardProps) => {
      <h2 className="text-xl font-medium">{board.name}</h2>
      <div className="absolute bottom-0 h-[1px] w-full bg-black/50 dark:bg-white/50" />
     </div>
-    {board.fieldNames &&
-     board.fieldNames.length > 0 &&
-     board.fieldNames.map((category: string, i: number) => (
-      <div key={i} className="flex flex-col gap-2">
-       <span className="text-sm opacity-80">{category}</span>
-       <span className="text-sm opacity-80">{board.fieldValues[i]}</span>
+    {board.sections &&
+     board.sections.length > 0 &&
+     board.sections.map((section) => (
+      <div key={section._id} className="flex flex-col gap-2">
+       <span className="text-sm opacity-80">{section.name}</span>
       </div>
      ))}
    </div>

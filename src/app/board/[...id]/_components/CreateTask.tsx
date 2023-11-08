@@ -2,7 +2,7 @@
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 
-const CreateFieldValue = ({ category }: { category: string }) => {
+const CreateFieldValue = ({ section }: { section: string }) => {
  const [showModal, setShowModal] = useState(false);
  const closeModal = () => {
   const modalElement = document.getElementById("createModal");
@@ -30,7 +30,7 @@ const CreateFieldValue = ({ category }: { category: string }) => {
       onClick={(e) => e.stopPropagation()}
       className="xxs:border border-black/50 dark:border-white/50 w-full h-full xxs:w-[85%] xxs:h-auto md:w-[65%] lg:w-[65%]  xl:w-[55%] pb-20 p-3 opening-animation relative bg-lightBG dark:bg-darkBG rounded sm:max-w-[500px] z-[100]"
      >
-      modal
+      <h2 className="text-2xl">{section}</h2>
      </div>
     </div>
    )}

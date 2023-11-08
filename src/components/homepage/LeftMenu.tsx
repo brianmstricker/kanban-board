@@ -2,14 +2,27 @@ import CreateBoard from "./CreateBoard";
 import Link from "next/link";
 
 type LeftMenuProps = {
- boards: {
-  id: string;
-  name: string;
-  description?: string;
-  fieldNames: string[];
-  fieldValues: string[];
-  publicAccess: boolean;
- }[];
+ boards:
+  | {
+     _id: string;
+     name: string;
+     description?: string;
+     owner: string;
+     publicAccess: boolean;
+     position: number;
+     createdAt: string;
+     updatedAt: string;
+     sections: {
+      _id: string;
+      name: string;
+      description?: string;
+      fieldNames: string[];
+      fieldValues: string[];
+      createdAt: string;
+      updatedAt: string;
+     }[];
+    }[]
+  | null;
 };
 
 const LeftMenu = ({ boards }: LeftMenuProps) => {
@@ -25,8 +38,8 @@ const LeftMenu = ({ boards }: LeftMenuProps) => {
       <div className="w-full">
        {boards.map((board) => (
         <Link
-         href={`/board/${board.id}`}
-         key={board.id}
+         href={`/board/${board._id}`}
+         key={board._id}
          className="w-full block text-center py-4 cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-300 border-b border-b-neutral-300/80 dark:border-b-neutral-700"
         >
          <span>{board.name}</span>
