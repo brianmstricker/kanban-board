@@ -8,7 +8,7 @@ import Section from "../models/section.model";
 type Params = {
  name: string;
  description: string;
- id: string;
+ userID: string;
 };
 
 const defaultSections = [
@@ -40,16 +40,16 @@ async function createDefaultSections(boardID: string) {
 export async function createBoard({
  name,
  description,
- id,
+ userID,
 }: Params): Promise<void> {
  try {
   dbConnect();
-  if (!id) throw new Error("No user id provided");
-  const boardCount = await Board.countDocuments({ owner: id });
+  if (!userID) throw new Error("No user id provided");
+  const boardCount = await Board.countDocuments({ owner: userID });
   const newBoard = await Board.create({
    name,
    description,
-   owner: id,
+   owner: userID,
    position: boardCount ? boardCount : 0,
   });
   await createDefaultSections(newBoard._id);

@@ -1,15 +1,17 @@
 import { fetchBoard } from "@/lib/actions/board.actions";
 import { getUserID } from "@/lib/utils";
 import CreateFieldValue from "./_components/CreateTask";
+import AddSection from "./_components/AddSection";
 
 type Section = {
  _id: string;
  name: string;
+ position: number;
  description?: string;
- fieldNames: string[];
- fieldValues: string[];
+ board: string;
  createdAt: string;
  updatedAt: string;
+ tasks?: [];
 };
 
 const page = async ({ params }: { params: { id: string } }) => {
@@ -21,9 +23,13 @@ const page = async ({ params }: { params: { id: string } }) => {
   <main className="min-h-[calc(100vh-8rem)]">
    <div className="flex h-full">
     <div className="flex-grow p-2 px-8">
-     <h1 className="text-5xl text-center mb-4 underline underline-offset-4 font-bold">
-      {board.name}
-     </h1>
+     <div className="flex items-end relative">
+      <AddSection board={board._id.toString()} />
+      <h1 className="text-5xl underline underline-offset-4 font-bold mx-auto">
+       {board.name}
+      </h1>
+     </div>
+     <p className="text-center opacity-75 mt-2 mb-4">{board.description}</p>
      <div className="grid grid-cols-1 xxs:grid-cols-2 md:grid-cols-3 gap-6 h-full relative">
       {board.sections.map((section: Section) => (
        <div

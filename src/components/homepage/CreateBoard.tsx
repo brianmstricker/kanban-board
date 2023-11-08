@@ -21,25 +21,22 @@ import { useUser } from "@clerk/nextjs";
 const formSchema = z.object({
  name: z
   .string()
-  .min(3, { message: "Board name must be at least three characters." })
+  .min(1, { message: "Board name must be at least one character." })
   .max(50, { message: "Board name must be 50 characters or less." }),
  description: z
   .string()
   .optional()
   .or(
-   z
-    .string()
-    .min(3, { message: "Board description must be at least three characters." })
-    .max(1000, {
-     message: "Board description must be 1000 characters or less.",
-    })
+   z.string().max(500, {
+    message: "Board description must be 500 characters or less.",
+   })
   ),
 });
 
 const CreateBoard = () => {
  const [modal, setShowModal] = useState(false);
  const userInfo = useUser();
- const id = userInfo?.user?.id;
+ const userID = userInfo?.user?.id;
  const closeModal = () => {
   const modalElement = document.getElementById("createModal");
   if (modalElement) {
@@ -60,7 +57,7 @@ const CreateBoard = () => {
   await createBoard({
    name: values.name,
    description: values.description as string,
-   id: id as string,
+   userID: userID as string,
   });
   closeModal();
  }

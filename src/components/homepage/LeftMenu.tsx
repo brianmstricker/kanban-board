@@ -15,9 +15,9 @@ type LeftMenuProps = {
      sections: {
       _id: string;
       name: string;
+      position: number;
       description?: string;
-      fieldNames: string[];
-      fieldValues: string[];
+      board: string;
       createdAt: string;
       updatedAt: string;
      }[];

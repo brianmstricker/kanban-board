@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const boardSchema = new mongoose.Schema(
  {
-  name: { type: String, required: true },
-  description: { type: String },
+  name: { type: String, required: true, minlength: 1, maxlength: 50 },
+  description: { type: String, maxlength: 500 },
   owner: { type: String, required: true },
   publicAccess: { type: Boolean, default: false },
   position: { type: Number },

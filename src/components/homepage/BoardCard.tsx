@@ -13,9 +13,9 @@ export type BoardCardProps = {
   sections: {
    _id: string;
    name: string;
+   position: number;
    description?: string;
-   fieldNames: string[];
-   fieldValues: string[];
+   board: string;
    createdAt: string;
    updatedAt: string;
   }[];
@@ -23,7 +23,6 @@ export type BoardCardProps = {
 };
 
 const BoardCard = ({ board }: BoardCardProps) => {
- console.log(board);
  return (
   <div className="border border-black/10 dark:border-white/10 rounded py-1 px-3 flex flex-col">
    <div className="flex-grow">
