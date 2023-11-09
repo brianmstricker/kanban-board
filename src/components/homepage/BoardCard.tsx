@@ -24,16 +24,16 @@ export type BoardCardProps = {
 
 const BoardCard = ({ board }: BoardCardProps) => {
  return (
-  <div className="border border-black/10 dark:border-white/10 rounded py-1 px-3 flex flex-col">
+  <div className="border border-black/10 dark:border-white/10 rounded py-1 px-4 flex flex-col">
    <div className="flex-grow">
     <div className="relative w-fit mx-auto">
-     <h2 className="text-xl font-medium">{board.name}</h2>
+     <h2 className="text-xl font-medium mb-2">{board.name}</h2>
      <div className="absolute bottom-0 h-[1px] w-full bg-black/50 dark:bg-white/50" />
     </div>
     {board.sections &&
      board.sections.length > 0 &&
      board.sections.map((section) => (
-      <div key={section._id} className="flex flex-col gap-2">
+      <div key={section._id} className="mt-1">
        <span className="text-sm opacity-80">{section.name}</span>
       </div>
      ))}

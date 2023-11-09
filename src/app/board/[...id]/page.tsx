@@ -23,7 +23,7 @@ const page = async ({ params }: { params: { id: string } }) => {
   <main className="min-h-[calc(100vh-8rem)]">
    <div className="flex h-full">
     <div className="flex-grow p-2 px-8">
-     <div className="flex items-end relative">
+     <div className="flex flex-col sm:flex-row items-end relative pb-12 sm:pb-0">
       <AddSection board={board._id.toString()} />
       <h1 className="text-5xl underline underline-offset-4 font-bold mx-auto">
        {board.name}
