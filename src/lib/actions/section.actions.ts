@@ -22,7 +22,7 @@ export async function createSection({
   if (!userID) throw new Error("No user id provided");
   if (!board) throw new Error("No board id provided");
   const sectionCount = await Section.countDocuments({ board });
-  const newSection = await Section.create({
+  await Section.create({
    name,
    description,
    board,

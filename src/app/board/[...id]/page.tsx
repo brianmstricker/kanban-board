@@ -1,9 +1,9 @@
 import { fetchBoard } from "@/lib/actions/board.actions";
 import { getUserID } from "@/lib/utils";
-import CreateFieldValue from "./_components/CreateTask";
+import AddTask from "./_components/AddTask";
 import AddSection from "./_components/AddSection";
 
-type Section = {
+export type Section = {
  _id: string;
  name: string;
  position: number;
@@ -11,7 +11,6 @@ type Section = {
  board: string;
  createdAt: string;
  updatedAt: string;
- tasks?: [];
 };
 
 const page = async ({ params }: { params: { id: string } }) => {
@@ -19,6 +18,8 @@ const page = async ({ params }: { params: { id: string } }) => {
  const userID = await getUserID();
  if (!userID) return null;
  const board = await fetchBoard({ boardID: id, userID });
+ if (!board) return null;
+ console.log(board);
  return (
   <main className="min-h-[calc(100vh-8rem)]">
    <div className="flex h-full">
@@ -31,19 +32,32 @@ const page = async ({ params }: { params: { id: string } }) => {
      </div>
      <p className="text-center opacity-75 mt-2 mb-4">{board.description}</p>
      <div className="grid grid-cols-1 xxs:grid-cols-2 md:grid-cols-3 gap-6 h-full relative">
-      {board.sections.map((section: Section) => (
-       <div
-        key={section._id}
-        className="min-h-[50px] bg-black/10 dark:bg-white/10"
-       >
-        <div>
-         <div className="flex items-center pt-1 relative mx-auto w-full md:w-fit justify-center">
-          <span className="font-medium text-xl capitalize">{section.name}</span>
-          <CreateFieldValue section={section.name} />
+      {board.sections.map((section: Section) => {
+       const { _id, name, position, board, createdAt, updatedAt } = section;
+       const newSection = {
+        _id: _id.toString(),
+        name,
+        position,
+        createdAt,
+        updatedAt,
+        board: board.toString(),
+       };
+       return (
+        <div
+         key={section._id}
+         className="min-h-[50px] bg-black/10 dark:bg-white/10"
+        >
+         <div>
+          <div className="flex items-center pt-1 relative mx-auto w-full md:w-fit justify-center">
+           <span className="font-medium text-xl capitalize">
+            {section.name}
+           </span>
+           <AddTask section={newSection} />
+          </div>
          </div>
         </div>
-       </div>
-      ))}
+       );
+      })}
      </div>
     </div>
    </div>

@@ -13,6 +13,7 @@ export async function Home() {
  const userID = await getUserID();
  if (!userID) return null;
  const boards = await fetchBoards({ userID });
+ console.log(boards?.map((b) => b.sections));
  return (
   <div className="flex">
    <LeftMenu boards={boards} />
@@ -26,7 +27,7 @@ export async function Home() {
     {boards && boards.length > 0 && (
      <>
       <p className="mt-2 opacity-75 text-center">Your boards:</p>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4 gap-6">
+      <div className="grid grid-cols-1 [@media(max-width:500px)]:grid-cols-2 lg:grid-cols-4 mt-8 gap-6">
        {boards.map((board) => (
         <BoardCard key={board._id} board={board} />
        ))}

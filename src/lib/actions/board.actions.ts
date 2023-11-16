@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import dbConnect from "../db";
 import Board from "../models/board.model";
 import Section from "../models/section.model";
+import Task from "../models/task.model";
 
 type Params = {
  name: string;
@@ -70,8 +71,15 @@ export async function fetchBoards({ userID }: { userID: string }) {
     const sections = await Section.find({ board: board._id }).sort({
      position: 1,
     });
-    // .populate("tasks");
-    return { ...board.toObject(), sections };
+    const tasks = await Promise.all(
+     sections.map(async (section) => {
+      const tasks = await Task.find({ section: section._id }).sort({
+       position: 1,
+      });
+      return { ...section.toObject(), tasks };
+     })
+    );
+    return { ...board.toObject(), sections: tasks };
    })
   );
   return boardsWithSections;
@@ -93,8 +101,16 @@ export async function fetchBoard({
   const board = await Board.find({ _id: boardID, owner: userID });
   if (!board) return null;
   const sections = await Section.find({ board: boardID }).sort({ position: 1 });
-  // .populate("tasks");
-  return { ...board[0].toObject(), sections };
+  if (!sections) return null;
+  const tasks = await Promise.all(
+   sections.map(async (section) => {
+    const tasks = await Task.find({ section: section._id }).sort({
+     position: 1,
+    });
+    return { ...section.toObject(), tasks };
+   })
+  );
+  return { ...board[0].toObject(), sections: tasks };
  } catch (error: any) {
   throw new Error(`Failed to fetch board: ${error.message}`);
  }

@@ -8,13 +8,8 @@ const sectionSchema = new mongoose.Schema(
   board: {
    type: mongoose.Schema.Types.ObjectId,
    ref: "Board",
+   required: true,
   },
-  tasks: [
-   {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Task",
-   },
-  ],
  },
  { timestamps: true }
 );

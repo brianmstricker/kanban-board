@@ -1,8 +1,7 @@
 "use client";
-import { PlusSquare, X } from "lucide-react";
+import { PlusCircle, X } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
  Form,
@@ -13,17 +12,19 @@ import {
  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@clerk/nextjs";
-import { createSection } from "@/lib/actions/section.actions";
+import { createTask } from "@/lib/actions/task.actions";
+import { Section } from "../page";
 
 const formSchema = z.object({
  name: z
   .string()
-  .min(1, { message: "Section name must be at least one character." })
-  .max(50, { message: "Section name must be 50 characters or less." }),
+  .min(1, { message: "Task name must be at least one character." })
+  .max(1000, { message: "Task name must be 1000 characters or less." }),
 });
 
-const AddSection = ({ board }: { board: string }) => {
+const AddTask = ({ section }: { section: Section }) => {
  const [showModal, setShowModal] = useState(false);
  const userInfo = useUser();
  const userID = userInfo?.user?.id;
@@ -43,10 +44,11 @@ const AddSection = ({ board }: { board: string }) => {
   },
  });
  async function onSubmit(values: z.infer<typeof formSchema>) {
-  await createSection({
+  await createTask({
    name: values.name,
    userID: userID as string,
-   board: board,
+   board: section.board,
+   section: section._id,
   });
   closeModal();
  }
@@ -54,10 +56,9 @@ const AddSection = ({ board }: { board: string }) => {
   <>
    <button
     onClick={() => setShowModal(true)}
-    className="flex gap-1 items-center absolute bottom-0 left-0 sm:bottom-auto sm:left-auto"
+    className="absolute right-2 md:-right-12"
    >
-    <PlusSquare size={26} />
-    <span>Add section</span>
+    <PlusCircle size={26} />
    </button>
    {showModal && (
     <div
@@ -67,7 +68,7 @@ const AddSection = ({ board }: { board: string }) => {
      <div
       id="createModal"
       onClick={(e) => e.stopPropagation()}
-      className="border border-black/50 dark:border-white/50 w-[85%] h-auto md:w-[65%] lg:w-[65%]  xl:w-[55%] pb-4 p-3 opening-animation relative bg-lightBG dark:bg-darkBG rounded sm:max-w-[500px] z-[100]"
+      className="border border-black/50 dark:border-white/50 w-[85%] h-auto md:w-[65%] lg:w-[65%] xl:w-[55%] pb-4 p-3 opening-animation relative bg-lightBG dark:bg-darkBG rounded sm:max-w-[500px] z-[100]"
      >
       <div
        onClick={closeModal}
@@ -75,7 +76,7 @@ const AddSection = ({ board }: { board: string }) => {
       >
        <X />
       </div>
-      <h2 className="text-2xl mb-4">Create Section</h2>
+      <h2 className="text-2xl font-bold mb-6">{section.name}</h2>
       <Form {...form}>
        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
         <FormField
@@ -83,10 +84,10 @@ const AddSection = ({ board }: { board: string }) => {
          name="name"
          render={({ field }) => (
           <FormItem>
-           <FormLabel className="ml-1 text-lg">Section Name</FormLabel>
+           <FormLabel className="ml-1 text-lg">Create Task</FormLabel>
            <FormControl>
             <Input
-             placeholder="Section Name"
+             placeholder="Task"
              {...field}
              className="text-lg border-black/50 dark:border-white/50"
             />
@@ -109,4 +110,4 @@ const AddSection = ({ board }: { board: string }) => {
   </>
  );
 };
-export default AddSection;
+export default AddTask;
