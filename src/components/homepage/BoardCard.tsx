@@ -1,4 +1,5 @@
 import { CheckSquare, XSquare } from "lucide-react";
+import Link from "next/link";
 
 export type BoardCardProps = {
  board: {
@@ -18,13 +19,23 @@ export type BoardCardProps = {
    board: string;
    createdAt: string;
    updatedAt: string;
+   tasks?: {
+    _id: string;
+    name: string;
+    description?: string;
+    createdAt: string;
+    updatedAt: string;
+   }[];
   }[];
  };
 };
 
 const BoardCard = ({ board }: BoardCardProps) => {
  return (
-  <div className="border border-black/10 dark:border-white/10 rounded py-1 px-4 flex flex-col">
+  <Link
+   href={"/board/" + board._id}
+   className="border border-black/10 dark:border-white/10 rounded py-1 px-4 flex flex-col hover:scale-[1.01] transition-all duration-300 hover:border-black/30 dark:hover:border-white/30"
+  >
    <div className="flex-grow">
     <div className="relative w-fit mx-auto">
      <h2 className="text-xl font-medium mb-2">{board.name}</h2>
@@ -33,8 +44,17 @@ const BoardCard = ({ board }: BoardCardProps) => {
     {board.sections &&
      board.sections.length > 0 &&
      board.sections.map((section) => (
-      <div key={section._id} className="mt-1">
-       <span className="text-sm opacity-80">{section.name}</span>
+      <div key={section._id} className="mt-3">
+       <span className="opacity-90 font-bold">{section.name}:&nbsp;</span>
+       {section.tasks && (
+        <ul>
+         {section.tasks.map((task) => (
+          <li key={task._id} className="text-sm opacity-70 ml-3 list-disc">
+           {task.name}
+          </li>
+         ))}
+        </ul>
+       )}
       </div>
      ))}
    </div>
@@ -51,7 +71,7 @@ const BoardCard = ({ board }: BoardCardProps) => {
      </div>
     )}
    </div>
-  </div>
+  </Link>
  );
 };
 export default BoardCard;

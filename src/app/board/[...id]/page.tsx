@@ -3,6 +3,14 @@ import { getUserID } from "@/lib/utils";
 import AddTask from "./_components/AddTask";
 import AddSection from "./_components/AddSection";
 
+export type Task = {
+ _id: string;
+ name: string;
+ description?: string;
+ createdAt: string;
+ updatedAt: string;
+};
+
 export type Section = {
  _id: string;
  name: string;
@@ -11,6 +19,7 @@ export type Section = {
  board: string;
  createdAt: string;
  updatedAt: string;
+ tasks?: Task[];
 };
 
 const page = async ({ params }: { params: { id: string } }) => {
@@ -19,7 +28,6 @@ const page = async ({ params }: { params: { id: string } }) => {
  if (!userID) return null;
  const board = await fetchBoard({ boardID: id, userID });
  if (!board) return null;
- console.log(board);
  return (
   <main className="min-h-[calc(100vh-8rem)]">
    <div className="flex h-full">
@@ -48,12 +56,31 @@ const page = async ({ params }: { params: { id: string } }) => {
          className="min-h-[50px] bg-black/10 dark:bg-white/10"
         >
          <div>
-          <div className="flex items-center pt-1 relative mx-auto w-full md:w-fit justify-center">
-           <span className="font-medium text-xl capitalize">
+          <div className="flex items-center pt-1.5 relative mx-auto w-full md:w-fit justify-center">
+           <span className="font-semibold text-2xl capitalize">
             {section.name}
            </span>
            <AddTask section={newSection} />
           </div>
+          {section.tasks &&
+           section.tasks.map((task) => {
+            return (
+             <div
+              key={task._id}
+              className="bg-white dark:bg-black/10 rounded shadow-md p-2 mx-2 my-2"
+             >
+              <div className="flex justify-between items-center">
+               <span className="font-medium text-lg capitalize">
+                {task.name}
+               </span>
+               <span className="text-sm opacity-50">
+                {new Date(task.createdAt).toLocaleDateString()}
+               </span>
+              </div>
+              <p className="text-sm opacity-75">{task.description}</p>
+             </div>
+            );
+           })}
          </div>
         </div>
        );

@@ -13,7 +13,6 @@ export async function Home() {
  const userID = await getUserID();
  if (!userID) return null;
  const boards = await fetchBoards({ userID });
- console.log(boards?.map((b) => b.sections));
  return (
   <div className="flex">
    <LeftMenu boards={boards} />

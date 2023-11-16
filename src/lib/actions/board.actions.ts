@@ -71,6 +71,7 @@ export async function fetchBoards({ userID }: { userID: string }) {
     const sections = await Section.find({ board: board._id }).sort({
      position: 1,
     });
+    if (!sections) return null;
     const tasks = await Promise.all(
      sections.map(async (section) => {
       const tasks = await Task.find({ section: section._id }).sort({
