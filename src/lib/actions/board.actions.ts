@@ -94,12 +94,13 @@ export async function fetchBoard({
  userID,
 }: {
  boardID: string;
- userID: string;
+ userID?: string;
 }) {
  try {
   dbConnect();
-  if (!userID || !boardID) throw new Error("No user id or board id provided");
-  const board = await Board.find({ _id: boardID, owner: userID });
+  if (!boardID) throw new Error("No user id or board id provided");
+  const board = await Board.find({ _id: boardID });
+  // owner: userID
   if (!board) return null;
   const sections = await Section.find({ board: boardID }).sort({ position: 1 });
   if (!sections) return null;

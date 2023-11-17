@@ -2,6 +2,25 @@ import { fetchBoard } from "@/lib/actions/board.actions";
 import { getUserID } from "@/lib/utils";
 import AddTask from "./_components/AddTask";
 import AddSection from "./_components/AddSection";
+import type { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata({
+ params,
+}: {
+ params: { id: string };
+}): Promise<Metadata> {
+ const { id } = params;
+ const board = await fetchBoard({ boardID: id });
+ if (!board)
+  return {
+   title: "Board not found - Kanban",
+   description: "Kanban boards for managing tasks",
+  };
+ return {
+  title: `${board.name} - Kanban`,
+  description: "Kanban boards for managing tasks",
+ };
+}
 
 export type Task = {
  _id: string;
