@@ -65,7 +65,7 @@ const CreateBoard = () => {
   <>
    <button
     onClick={() => setShowModal(true)}
-    className="flex items-center justify-center gap-2 w-full h-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-300 py-4"
+    className="flex items-center justify-center gap-2 w-full h-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-300 py-4 px-8"
    >
     <span className="text-xl font-semibold">Create</span>
     <Plus />

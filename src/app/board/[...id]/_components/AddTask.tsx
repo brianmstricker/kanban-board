@@ -16,12 +16,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@clerk/nextjs";
 import { createTask } from "@/lib/actions/task.actions";
 import { Section } from "../page";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
  name: z
   .string()
   .min(1, { message: "Task name must be at least one character." })
   .max(1000, { message: "Task name must be 1000 characters or less." }),
+ description: z
+  .string()
+  .max(1000, { message: "Task description must be 1000 characters or less." }),
 });
 
 const AddTask = ({ section }: { section: Section }) => {
@@ -41,11 +45,13 @@ const AddTask = ({ section }: { section: Section }) => {
   resolver: zodResolver(formSchema),
   defaultValues: {
    name: "",
+   description: "",
   },
  });
  async function onSubmit(values: z.infer<typeof formSchema>) {
   await createTask({
    name: values.name,
+   description: values.description,
    userID: userID as string,
    board: section.board,
    section: section._id,
@@ -90,6 +96,24 @@ const AddTask = ({ section }: { section: Section }) => {
              placeholder="Task"
              {...field}
              className="text-lg border-black/50 dark:border-white/50"
+            />
+           </FormControl>
+           <FormMessage />
+          </FormItem>
+         )}
+        />
+        <FormField
+         control={form.control}
+         name="description"
+         render={({ field }) => (
+          <FormItem className="mt-2">
+           <FormLabel className="ml-1 text-lg">Description</FormLabel>
+           <FormControl>
+            <Textarea
+             placeholder="Leave a description (optional)"
+             {...field}
+             className="text-lg border-black/50 dark:border-white/50"
+             rows={5}
             />
            </FormControl>
            <FormMessage />

@@ -16,7 +16,7 @@ export async function Home() {
  return (
   <div className="flex">
    <LeftMenu boards={boards} />
-   <main className="p-2 flex-grow">
+   <main className="p-2 md:px-4 flex-grow">
     <h1 className="text-5xl text-center">Welcome to Kanban!</h1>
     {boards && boards.length === 0 && (
      <p className="mt-6 text-center">
@@ -26,7 +26,7 @@ export async function Home() {
     {boards && boards.length > 0 && (
      <>
       <p className="mt-2 opacity-75 text-center">Your boards:</p>
-      <div className="grid grid-cols-1 [@media(max-width:500px)]:grid-cols-2 lg:grid-cols-4 mt-8 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-8 gap-6">
        {boards.map((board) => (
         <BoardCard key={board._id} board={board} />
        ))}

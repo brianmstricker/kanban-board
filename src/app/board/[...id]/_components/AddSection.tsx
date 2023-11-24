@@ -15,12 +15,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { useUser } from "@clerk/nextjs";
 import { createSection } from "@/lib/actions/section.actions";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
  name: z
   .string()
   .min(1, { message: "Section name must be at least one character." })
   .max(50, { message: "Section name must be 50 characters or less." }),
+ description: z
+  .string()
+  .max(1000, { message: "Task description must be 1000 characters or less." }),
 });
 
 const AddSection = ({ board }: { board: string }) => {
@@ -40,11 +44,13 @@ const AddSection = ({ board }: { board: string }) => {
   resolver: zodResolver(formSchema),
   defaultValues: {
    name: "",
+   description: "",
   },
  });
  async function onSubmit(values: z.infer<typeof formSchema>) {
   await createSection({
    name: values.name,
+   description: values.description,
    userID: userID as string,
    board: board,
   });
@@ -54,7 +60,7 @@ const AddSection = ({ board }: { board: string }) => {
   <>
    <button
     onClick={() => setShowModal(true)}
-    className="flex gap-1 items-center absolute bottom-0 left-0 sm:bottom-auto sm:left-auto"
+    className="flex gap-1 items-center absolute bottom-0 left-0 sm:bottom-auto sm:left-auto mb-4"
    >
     <PlusSquare size={26} />
     <span>Add section</span>
@@ -89,6 +95,24 @@ const AddSection = ({ board }: { board: string }) => {
              placeholder="Section Name"
              {...field}
              className="text-lg border-black/50 dark:border-white/50"
+            />
+           </FormControl>
+           <FormMessage />
+          </FormItem>
+         )}
+        />
+        <FormField
+         control={form.control}
+         name="description"
+         render={({ field }) => (
+          <FormItem className="mt-2">
+           <FormLabel className="ml-1 text-lg">Description</FormLabel>
+           <FormControl>
+            <Textarea
+             placeholder="Leave a description (optional)"
+             {...field}
+             className="text-lg border-black/50 dark:border-white/50"
+             rows={5}
             />
            </FormControl>
            <FormMessage />

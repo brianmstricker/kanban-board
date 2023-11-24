@@ -53,12 +53,14 @@ const page = async ({ params }: { params: { id: string } }) => {
     <div className="flex-grow p-2 px-8">
      <div className="flex flex-col sm:flex-row items-end relative pb-12 sm:pb-0">
       <AddSection board={board._id.toString()} />
-      <h1 className="text-5xl underline underline-offset-4 font-bold mx-auto">
-       {board.name}
-      </h1>
+      <div className="text-center mx-auto">
+       <span className="text-5xl underline underline-offset-4 font-bold">
+        {board.name}
+       </span>
+       <p className="text-center opacity-75 mt-2 mb-4">{board.description}</p>
+      </div>
      </div>
-     <p className="text-center opacity-75 mt-2 mb-4">{board.description}</p>
-     <div className="grid grid-cols-1 xxs:grid-cols-2 md:grid-cols-3 gap-6 h-full relative">
+     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 relative">
       {board.sections.map((section: Section) => {
        const { _id, name, position, board, createdAt, updatedAt } = section;
        const newSection = {
@@ -72,31 +74,37 @@ const page = async ({ params }: { params: { id: string } }) => {
        return (
         <div
          key={section._id}
-         className="min-h-[50px] bg-black/10 dark:bg-white/10"
+         className="rounded pb-6 bg-black/5 dark:bg-white/10 min-h-[100px]"
         >
          <div>
           <div className="flex items-center pt-1.5 relative mx-auto w-full md:w-fit justify-center">
-           <span className="font-semibold text-2xl capitalize">
+           <span className="font-bold text-xl sm:text-3xl capitalize px-2">
             {section.name}
            </span>
            <AddTask section={newSection} />
           </div>
+          <div className="max-w-[90%] mx-auto opacity-75 mt-1">
+           {section.description}
+          </div>
+          <div className="w-full h-[1px] mt-2 mb-4 bg-black/10 dark:bg-white/10" />
           {section.tasks &&
            section.tasks.map((task) => {
             return (
              <div
               key={task._id}
-              className="bg-white dark:bg-black/10 rounded shadow-md p-2 mx-2 my-2"
+              className="bg-white dark:bg-black/10 rounded shadow-md p-2 mx-2 my-2 cursor-pointer transition-colors duration-300 hover:bg-black/10 dark:hover:bg-white/10"
              >
               <div className="flex justify-between items-center">
-               <span className="font-medium text-lg capitalize">
+               <span className="font-extrabold text-lg sm:text-xl capitalize line-clamp-5">
                 {task.name}
                </span>
-               <span className="text-sm opacity-50">
+               <span className="text-xs sm:text-sm opacity-50">
                 {new Date(task.createdAt).toLocaleDateString()}
                </span>
               </div>
-              <p className="text-sm opacity-75">{task.description}</p>
+              <p className="text-sm opacity-75 line-clamp-3 mt-1">
+               {task.description}
+              </p>
              </div>
             );
            })}
