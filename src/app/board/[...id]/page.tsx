@@ -57,7 +57,9 @@ const page = async ({ params }: { params: { id: string } }) => {
        <span className="text-5xl underline underline-offset-4 font-bold">
         {board.name}
        </span>
-       <p className="text-center opacity-75 mt-2 mb-4">{board.description}</p>
+       <p className="text-center opacity-75 mt-2 mb-4 max-w-[300px]">
+        {board.description}
+       </p>
       </div>
      </div>
      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 relative">
