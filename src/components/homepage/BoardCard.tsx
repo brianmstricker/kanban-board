@@ -41,24 +41,26 @@ const BoardCard = ({ board }: BoardCardProps) => {
      <h2 className="text-xl font-medium mb-2">{board.name}</h2>
      <div className="absolute bottom-0 h-[1px] w-full bg-black/50 dark:bg-white/50" />
     </div>
-    {board.sections &&
-     board.sections.length > 0 &&
-     board.sections.map((section) => (
-      <div key={section._id} className="mt-3">
-       <span className="opacity-90 font-bold">{section.name}:&nbsp;</span>
-       {section.tasks && (
-        <ul>
-         {section.tasks.map((task) => (
-          <li key={task._id} className="text-sm opacity-70 ml-3 list-disc">
-           {task.name}
-          </li>
-         ))}
-        </ul>
-       )}
-      </div>
-     ))}
+    {board.sections && board.sections.length > 0 && (
+     <div className="flex flex-col justify-between h-[85%]">
+      {board.sections.map((section) => (
+       <div key={section._id} className="mt-3">
+        <span className="opacity-90 font-bold">{section.name}:&nbsp;</span>
+        {section.tasks && (
+         <ul>
+          {section.tasks.map((task) => (
+           <li key={task._id} className="text-sm opacity-70 ml-3 list-disc">
+            {task.name}
+           </li>
+          ))}
+         </ul>
+        )}
+       </div>
+      ))}
+     </div>
+    )}
    </div>
-   <div className="mt-4">
+   <div className="mt-8">
     {board.publicAccess ? (
      <div>
       <CheckSquare color="green" />

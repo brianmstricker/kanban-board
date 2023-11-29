@@ -33,7 +33,7 @@ const formSchema = z.object({
   ),
 });
 
-const CreateBoard = () => {
+const CreateBoard = ({ small }: { small?: boolean }) => {
  const [modal, setShowModal] = useState(false);
  const userInfo = useUser();
  const userID = userInfo?.user?.id;
@@ -65,7 +65,12 @@ const CreateBoard = () => {
   <>
    <button
     onClick={() => setShowModal(true)}
-    className="flex items-center justify-center gap-2 w-full h-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-300 py-4 px-10"
+    className={
+     "flex items-center justify-center gap-2 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-300 py-4 px-10" +
+     (small
+      ? " border border-black/10 dark:border-white/10 rounded"
+      : " w-full h-full")
+    }
    >
     <span className="text-xl font-semibold">Create</span>
     <Plus />
