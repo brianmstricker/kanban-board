@@ -1,4 +1,3 @@
-import BoardCard from "@/components/homepage/BoardCard";
 import BoardGrid from "@/components/homepage/BoardGrid";
 import CreateBoard from "@/components/homepage/CreateBoard";
 import LeftMenu from "@/components/homepage/LeftMenu";
@@ -14,8 +13,8 @@ export const metadata: Metadata = {
 export async function Home() {
  const userID = await getUserID();
  if (!userID) return null;
- const boards = await fetchBoards({ userID });
- if (!boards || (boards && boards.length === 0))
+ const boardsFetch = await fetchBoards({ userID });
+ if (!boardsFetch || (boardsFetch && boardsFetch.length === 0))
   return (
    <div className="flex items-center justify-center w-screen h-[85vh]">
     <main className="p-2 md:px-4">
@@ -29,6 +28,7 @@ export async function Home() {
     </main>
    </div>
   );
+ const boards = JSON.parse(JSON.stringify(boardsFetch));
  return (
   <div className="flex">
    <LeftMenu boards={boards} />
@@ -37,11 +37,7 @@ export async function Home() {
     {boards && boards.length > 0 && (
      <>
       <p className="mt-2 opacity-75 text-center">Your boards:</p>
-      <BoardGrid>
-       {boards.map((board) => (
-        <BoardCard key={board._id} board={board} />
-       ))}
-      </BoardGrid>
+      <BoardGrid boards={boards} />
      </>
     )}
    </main>

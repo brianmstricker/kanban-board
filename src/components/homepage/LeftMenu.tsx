@@ -31,9 +31,6 @@ const LeftMenu = ({ boards }: LeftMenuProps) => {
    <div className="flex flex-col items-center">
     <CreateBoard />
     <div className="border-t border-t-neutral-300/80 dark:border-t-neutral-700 w-full flex justify-center">
-     {boards && boards.length === 0 && (
-      <span className="mt-3">No boards found :(</span>
-     )}
      {boards && boards.length > 0 && (
       <div className="w-full">
        {boards.map((board) => (

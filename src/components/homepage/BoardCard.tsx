@@ -34,7 +34,7 @@ const BoardCard = ({ board }: BoardCardProps) => {
  return (
   <Link
    href={"/board/" + board._id}
-   className="border border-black/10 dark:border-white/10 rounded py-1 px-4 flex flex-col transition-all duration-300 hover:border-black/30 dark:hover:border-white/30"
+   className="border border-black/10 dark:border-white/10 rounded py-1 px-4 flex flex-col transition-all duration-300 hover:border-black/30 dark:hover:border-white/30 h-full"
   >
    <div className="flex-grow">
     <div className="relative w-fit mx-auto">

@@ -94,9 +94,9 @@ const page = async ({ params }: { params: { id: string } }) => {
             return (
              <div
               key={task._id}
-              className="bg-white dark:bg-black/10 rounded shadow-md p-2 mx-2 my-2 cursor-pointer transition-colors duration-300 hover:bg-black/10 dark:hover:bg-white/10"
+              className="bg-white dark:bg-black/10 rounded shadow-md px-3 py-4 m-2 cursor-pointer transition-colors duration-300 hover:bg-black/10 dark:hover:bg-white/10 flex justify-center items-center"
              >
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center w-full">
                <span className="font-extrabold text-lg sm:text-xl capitalize line-clamp-5">
                 {task.name}
                </span>
